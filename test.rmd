@@ -1,0 +1,36 @@
+---
+title: "PrognosisMarker"
+author: "ZHANG Xu"
+date: "2023-05-14"
+output: pdf_document
+params:
+  my_fromula: "sum(Exp(Genes) * Coef(Genes))"
+---
+
+# Model Introduction
+
+`IdMarker` is a comprehensive framework to predict multigenic prognostic signature for cancer outcome prediction and stratification. Firstly, we will randomly divide the samples into train group and test group according to the `ratio` specified by the user. In train data, we will apply univariate Cox proportional hazards regression analysis to filter candidate genes. With these candidate genes, multivariate Cox regression model to construct the risk model. According to the score of the risk model, we stratified these patients into high-risk group and low-risk group. Later, we will validate the performance of the combination of these genes by performing the Kaplan-Meier (KM) survival analysis and the log-rank test.
+
+# Model
+
+`r params$my_formula`
+
+# Results
+
+## Candidate genes filtered by univariate Cox regression analysis (p value \< 0.05)
+
+## Coefficients from multivariate Cox regreesion analysis
+
+## Results Files
+
+Information of patients' grouping was saved in "`Results/patients_group.txt`".
+
+Result of patients' univariate Cox regression was saved in "`Results/uni_candidate.txt`".
+
+Result of patients' multivariate Cox regression was saved in "`Results/multi_candidate.txt`"
+
+Result of KM Analysis for train group was saved in "`Results/train_survival_plot.pdf`"
+
+Result of KM Analysis for test group was saved in "`Results/test_survival_plot.pdf`"
+
+Result of KM Analysis for all the patients were saved in "`Results/total_survival_plot.pdf`"

@@ -206,3 +206,6 @@ total_survival_info <- sampled_data_preprocess(chosen_patients = clinical_filter
                                                clinical_filter_patient = clinical_filter_patient,
                                                rna_filter_nor_info = rna_filter_nor_info)
 total_threshold <- validate_model(uni_genes, total_survival_info, coef, "total")
+
+# rmarkdown::render("../Downloads/test.rmd")
+# rmarkdown::render("../Desktop/my_report.rmd", params = list(my_param = "car"))

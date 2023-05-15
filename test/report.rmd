@@ -1,0 +1,79 @@
+---
+title: "IdMarker"
+date: "2023-05-14"
+output: pdf_document
+params:
+  my_formula: "sum(Exp(Genes) * Coef(Genes))"
+  uni_cox: "No genes are left"
+  multi_cox: "Blank"
+  train_thresh: "NA"
+  train_survival_plot: "NA"
+  test_survival_plot: "NA"
+  total_survival_plot: "NA"
+  test_thresh: "NA"
+  total_thresh: "NA"
+---
+
+# Introduction
+
+`IdMarker` was a comprehensive framework to identify multigenic prognostic signature for cancer outcome prediction and patients stratification. First, IdMarker will randomly divide the samples into train group and test group according to the `ratio` specified by the user. In train data, we will apply univariate Cox proportional hazards regression analysis to filter candidate genes. With these candidate genes, multivariate Cox regression model to construct the risk model. IdMarker will calculate the value of `Overall Risk Score` by calling the model. According to Overall Risk Score, The patients will classified into high-risk group and low-risk group. Later, the performance of the model will be validated by performing the Kaplan-Meier (KM) survival analysis and the log-rank test.
+
+# Model
+The formula to calcuate the `Overall Risk Score` was listed as follows:
+
+`r params$my_formula`
+
+# Results
+
+## Univariate Cox proportional hazards regression analysis
+After applying univariate Cox proportional hazards regression analysis (p value \< 0.05), the candidate genes were narrowed to genes as follows:
+
+```{r echo = FALSE}
+print(params$uni_cox)
+```
+
+## Coefficients from multivariate Cox regression analysis
+Applying multivariate Cox regression analysis, the coefficients for genes are listed as follows:
+
+```{r echo = FALSE}
+print(params$multi_cox)
+
+```
+
+## Applying the model to train group and KM analysis to evaluate its preformance
+The data of training group was applied to the model. According to the calculated `Overall Risk Score`, the threshold was `r params$train_thresh`. With the threshold, the patients in the train group was classified to high-risk group and low-risk group. KM analysis was applied to evaluate the performance and the survival plot was as follows.
+
+```{r echo = FALSE,  fig.width=16, fig.height=12}
+params$train_survival_plot
+```
+
+## KM analysis for test group
+The threshold for test group was `r params$test_thresh`. The survival plot was as follows.
+
+```{r echo = FALSE,  fig.width=16, fig.height=12}
+params$test_survival_plot
+```
+
+## KM analysis for total patients
+The threshold for total patients was `r params$total_thresh`. The survival plot was as follows.
+
+```{r echo = FALSE,  fig.width=16, fig.height=12}
+params$total_survival_plot
+```
+
+
+## Results Files
+
+Patients' information of train group was saved in "`Results/train_group_patients.txt`".
+
+Patients' information of test group was saved in "`Results/test_group_patients.txt`".
+
+Result of patients' univariate Cox regression was saved in "`Results/uni_candidate.txt`".
+
+Result of patients' multivariate Cox regression was saved in "`Results/multi_candidate.txt`"
+
+Result of KM Analysis for train group was saved in "`Results/train_survival_plot.pdf`"
+
+Result of KM Analysis for test group was saved in "`Results/test_survival_plot.pdf`"
+
+Result of KM Analysis for all the patients were saved in "`Results/total_survival_plot.pdf`"
